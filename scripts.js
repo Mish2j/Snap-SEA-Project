@@ -1,9 +1,5 @@
 "use strict";
 
-/**
- *The instructions for the project are in the README.
- */
-
 (function () {
   const CARS = [
     {
@@ -125,9 +121,7 @@
   const sidebarCloseBtn = document.querySelector(".saved-card-close");
   const sidebarOpenBtn = document.querySelector(".sidebar-open");
   const sidebar = document.querySelector("aside.saved");
-
   let savedCarsVIN = [];
-  // const filtered = [];
 
   const formatPrice = (amount, currencyCode = "USD", locale = "en-US") => {
     return new Intl.NumberFormat(locale, {
@@ -235,59 +229,62 @@
     });
   };
 
-  const filterCheckboxSet = (event) => {
+  // reusable function that filters checked values (or uncheked values if "all" is checked)
+  // const filterCheckboxSet = (event) => {
+  //   let filters = [];
+  //   const currentCheckbox = event.target;
+  //   const currentField = event.currentTarget;
+  //   const allCheckboxes = [
+  //     ...currentField.querySelectorAll('input[type="checkbox"]'),
+  //   ];
+  //   const checkboxAll = allCheckboxes[0].value;
+
+  //   allCheckboxes.forEach((cb) => {
+  //     if (currentCheckbox.value === checkboxAll && cb.value !== checkboxAll) {
+  //       filters.push(cb.value);
+  //       return;
+  //     }
+
+  //     if (currentCheckbox.value !== checkboxAll && cb.checked) {
+  //       filters.push(cb.value);
+  //     }
+  //   });
+  //   return filters;
+  // };
+
+  //FIXME: Logical Bug when checking more than one box that isn't labeled "all"
+  const filterHandler = (event) => {
+    let checkedValues = [];
+    const allCheckboxes = filter.querySelectorAll('input[type="checkbox"]');
     const currentCheckbox = event.target;
     const currentField = event.currentTarget;
-
-    const allCheckboxes = [
+    const targetFieldCheckboxes = [
       ...currentField.querySelectorAll('input[type="checkbox"]'),
     ];
-    const checkboxAll = allCheckboxes[0].value;
-    const filters = [];
 
+    // collect all checkbox values
     allCheckboxes.forEach((cb) => {
-      if (currentCheckbox.value === checkboxAll && cb.value !== checkboxAll) {
-        filters.push(cb.value);
-        return;
-      }
-
-      if (currentCheckbox.value !== checkboxAll && cb.checked) {
-        filters.push(cb.value);
+      if (cb.value !== "all") {
+        checkedValues.push(cb.value);
       }
     });
 
-    return filters;
-  };
+    // runs when a checkbox that isn't labeled "all" is checked
+    if (currentCheckbox.value !== "all") {
+      let uncheckedOfTargetField = targetFieldCheckboxes
+        .filter((cb) => {
+          return cb.value !== "all" && !cb.checked;
+        })
+        .map((cb) => cb.value);
 
-  const filterHandler = (event) => {
-    const allCheckboxes = filter.querySelectorAll('input[type="checkbox"]');
-    // const transmissionFilterBox = filter.querySelector("#transmission");
-    // const titleFilterBox = filter.querySelector("#title-status");
-    // const conditionFilterBox = filter.querySelector("#condition");
-    // const fuelFilterBox = filter.querySelector("#fuel");
+      checkedValues = checkedValues.filter((val) => {
+        return !uncheckedOfTargetField.includes(val);
+      });
+    }
 
-    // const currentTargetBox = event.currentTarget;
-    // const currentTargetCheckboxes = event.currentTarget.querySelectorAll(
-    //   'input[type="checkbox"]'
-    // );
     const searchQuery = searchBar.value;
-    const checkedValues = [];
-
-    // if(event.currentTarget === transmissionFilterBox){
-
-    // }
-    // console.log(checkedValues);
-    // allCheckboxes.forEach((cb) => {
-    //   if (cb.checked) {
-    //     values.push(cb.value);
-    //   }
-    // });
-    // const checkFields = [...document.querySelectorAll(".filter-box")].filter();
-
-    console.log(checkedValues);
 
     const filteredData = CARS.filter((car) => {
-      // const sorted = [...numbers].sort((a, b) => a - b);
       // TODO: check if min is smaller than max
       const filterMinPrice = parseInt(minPrice.value);
       const filterMaxPrice = parseInt(maxPrice.value);
@@ -300,15 +297,20 @@
         parseInt(car.mileage) >= filterMinMil &&
         parseInt(car.mileage) <= filterMaxMil;
 
-      // TODO: add checkedValues.length === 0 ||
-      const filterTrans = checkedValues.includes(car.transmission);
-      const filterCondition = checkedValues.includes(car.condition);
-      const filterTitle = checkedValues.includes(car.title_status);
-      const filterFuel = checkedValues.includes(car.fuel);
+      const filterTrans =
+        checkedValues.length === 0 || checkedValues.includes(car.transmission);
+      const filterCondition =
+        checkedValues.length === 0 || checkedValues.includes(car.condition);
+      const filterTitle =
+        checkedValues.length === 0 || checkedValues.includes(car.title_status);
+      const filterFuel =
+        checkedValues.length === 0 || checkedValues.includes(car.fuel);
+
       const query = Object.values(car)
         .join("")
         .toLowerCase()
         .includes(searchQuery.trim().toLowerCase());
+
       return (
         filterTrans &&
         filterCondition &&
@@ -320,8 +322,7 @@
       );
     });
 
-    console.log(filteredData);
-    // if nothing was found, display a message
+    // TODO: if nothing was found, display a message
     displayCards(filteredData);
   };
 
@@ -359,22 +360,18 @@
 
   transmissionFilterBox.addEventListener("change", (event) => {
     checkboxAdjuster(event);
-    // filterCheckboxSet(event);
     filterHandler(event);
   });
   conditionFilterBox.addEventListener("change", (event) => {
     checkboxAdjuster(event);
-    // filterCheckboxSet(event);
     filterHandler(event);
   });
   titleFilterBox.addEventListener("change", (event) => {
     checkboxAdjuster(event);
-    // filterCheckboxSet(event);
     filterHandler(event);
   });
   fuelFilterBox.addEventListener("change", (event) => {
     checkboxAdjuster(event);
-    // filterCheckboxSet(event);
     filterHandler(event);
   });
   sidebarCloseBtn.addEventListener("click", closeSidebar);
