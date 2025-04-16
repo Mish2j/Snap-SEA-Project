@@ -1,51 +1,194 @@
-html,
-body {
+/* CSS Reset */
+
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 1140px;
+  padding-inline: 1rem;
+  font-family: "Verdana";
+  margin: auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+menu,
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+/* CSS Reset END*/
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
 }
 
 .main-header {
-  background-color: rgba(0, 0, 0, 0.3);
-  padding-bottom: 10px;
+  background-color: rgb(0, 0, 0);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .title {
-  text-align: center;
+  /* text-align: center; */
   margin: 0;
-  font-size: 8em;
+  /* font-size: 8em; */
   font-family: "Helvetica";
   font-weight: normal;
   color: white;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row;
+}
+
+aside.filter {
+  min-width: 15rem;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-block: 2rem;
+}
+
+.filter-box {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 10px;
+}
+
+.filter-box h4 {
+  margin-bottom: 10px;
+}
+
 #card-container {
   display: flex;
-  justify-content: center;
-  margin: 20px;
+  /* justify-content: center; */
+  flex-wrap: wrap;
+  flex: 1;
+  gap: 1rem;
+  margin-block: 2rem;
 }
 
 .card {
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 5px;
+  flex: 0 1 calc(50% - 1rem);
+  height: max-content;
 }
 
 .card-content {
-  padding: 20px;
-  font-family: "Verdana";
-  color: #777;
+  background-color: rgb(243, 243, 243);
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid #000000;
 }
 
-.card-content h2 {
-  margin-top: 0;
-  font-size: 20px;
+.card-title h3 {
+  /* margin-top: 0; */
+  /* font-size: 20px; */
+  font-size: 18px;
+  font-weight: bold;
+  padding: 1rem 1.5rem;
 }
 
-.card img {
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem;
+}
+
+.card-img {
   width: 100%;
-  height: auto;
+  height: 20rem;
+  background-color: rgb(246, 246, 246);
+  overflow: hidden;
+}
+
+.price {
+  font-size: 20px;
+  color: red;
+  font-weight: bold;
+}
+
+aside.saved {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 20rem;
+  height: 100vh;
+  background-color: rgb(191, 191, 191);
+  z-index: 10;
+  border-top-left-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  padding: 1rem;
+}
+
+aside.saved.closed {
+  transform: translateX(100%);
+}
+
+aside.saved.active {
+  transform: translateX(0);
+}
+
+aside.saved h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.saved-card-close {
+  background-color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+#saved-card-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.saved-card-content {
+  border: 1px solid #4a4a4a;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .footer {
@@ -67,4 +210,34 @@ button {
   font-size: 22px;
   cursor: pointer;
   margin: 5px;
+}
+
+button:hover {
+  /* scale: 1.05; */
+  box-shadow: 0 0 25px -10px black;
+  background-color: #979797;
+}
+
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+#searchBar {
+  border: 1px solid black;
+  border-radius: 1rem;
+  width: 20rem;
+  padding: 0.5rem;
+}
+
+.filter-box input[type="number"] {
+  border: 1px solid black;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.3rem;
 }

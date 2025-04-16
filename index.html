@@ -1,31 +1,254 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LA TV Shows | Home</title>
+    <title>Cars For Sale | Home</title>
     <meta name="description" content="A Catalog of Shows Set in Los Angeles" />
     <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="text/javascript" src="scripts.js" defer></script>
   </head>
 
   <body>
     <header class="main-header">
-      <h1 class="title">LA TV Shows</h1>
+      <h1 class="title">Cars For Sale</h1>
+      <button class="sidebar-open">View Saved Cars</button>
     </header>
-    <div id="card-container"></div>
-    <div class="card" style="display: none">
-      <div class="card-content">
-        <h2>TV Show Title</h2>
-        <img src="" alt="TV Show Poster" />
-        <ul>
-          <li>Bullet Point 1</li>
-          <li>Bullet Point 2</li>
-          <li>Bullet Point 3</li>
-        </ul>
+
+    <main>
+      <search>
+        <form onsubmit="event.preventDefault();">
+          <label for="searchBar">Find a Car:</label>
+          <input
+            type="search"
+            id="searchBar"
+            name="search"
+            placeholder="search by make, model, miles, price..."
+          />
+        </form>
+      </search>
+      <div class="main-container">
+        <div class="wrapper">
+          <aside class="filter">
+            <!-- <fieldset class="filter-box" id="brand">
+              <label for="make-select">Make</label>
+              <select name="make" id="make-select">
+                <option value="">--Please choose an option--</option>
+                <option value="value1">value1</option>
+                <option value="value2">value2</option>
+              </select>
+              <label for="model-select">Model</label>
+              <select name="model" id="model-select">
+                <option value="">--Please choose an option--</option>
+                <option value="value1">value1</option>
+                <option value="value2">value2</option>
+              </select>
+            </fieldset> -->
+
+            <fieldset class="filter-box" id="transmission">
+              <h4>Transmission</h4>
+              <div>
+                <input
+                  type="checkbox"
+                  id="all-transmissions"
+                  name="transmission"
+                  value="all"
+                  checked
+                />
+                <label for="all-transmissions">All</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="automatic"
+                  name="transmission"
+                  value="automatic"
+                />
+                <label for="automatic">Automatic</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="manual"
+                  name="transmission"
+                  value="manual"
+                />
+                <label for="manual">Manual</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter-box" id="condition">
+              <h4>Condition</h4>
+              <div>
+                <input
+                  type="checkbox"
+                  id="all-conditions"
+                  name="condition"
+                  value="all"
+                  checked
+                />
+                <label for="all-conditions">All</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="fair"
+                  name="condition"
+                  value="fair"
+                />
+                <label for="fair">Fair</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="good"
+                  name="condition"
+                  value="good"
+                />
+                <label for="good">Good</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="excellent"
+                  name="condition"
+                  value="excellent"
+                />
+                <label for="excellent">Excellent</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter-box" id="fuel">
+              <h4>Fuel</h4>
+              <div>
+                <input
+                  type="checkbox"
+                  id="all-fuel"
+                  name="fuel"
+                  value="all"
+                  checked
+                />
+                <label for="all-fuel">All</label>
+              </div>
+              <div>
+                <input type="checkbox" id="gas" name="fuel" value="gas" />
+                <label for="gas">Gas</label>
+              </div>
+              <div>
+                <input type="checkbox" id="hybrid" name="fuel" value="hybrid" />
+                <label for="hybrid">Hybrid</label>
+              </div>
+              <div>
+                <input type="checkbox" id="diesel" name="fuel" value="diesel" />
+                <label for="diesel">Diesel</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter-box" id="title-status">
+              <h4>Title Status</h4>
+              <div>
+                <input
+                  type="checkbox"
+                  id="all-title-status"
+                  name="title-status"
+                  value="all"
+                  checked
+                />
+                <label for="all-title-status">All</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="clean"
+                  name="title-status"
+                  value="clean"
+                />
+                <label for="clean">Clean</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="salvage"
+                  name="title-status"
+                  value="salvage"
+                />
+                <label for="salvage">Salvage</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="filter-box" id="price">
+              <h4>Price</h4>
+              <div>
+                <label for="min">Min</label>
+                <input type="number" step="100" min="0" id="min" value="0" />
+              </div>
+              <div>
+                <label for="max">Max</label>
+                <input
+                  type="number"
+                  step="100"
+                  min="0"
+                  id="max"
+                  value="500000"
+                />
+              </div>
+            </fieldset>
+
+            <fieldset class="filter-box" id="milage">
+              <h4>Milage</h4>
+              <div>
+                <label for="minMil">Min</label>
+                <input type="number" step="10" min="0" id="minMil" value="0" />
+              </div>
+              <div>
+                <label for="maxMil">Max</label>
+                <input
+                  type="number"
+                  step="10"
+                  min="0"
+                  id="maxMil"
+                  value="500000"
+                />
+              </div>
+            </fieldset>
+          </aside>
+          <div id="card-container"></div>
+          <div class="card" style="display: none">
+            <div class="card-content">
+              <div class="card-title">
+                <h3>Year Brand Model</h3>
+              </div>
+              <div class="card-img">
+                <img src="" alt="Car Image" />
+              </div>
+              <div class="card-details">
+                <span class="price">Price:</span>
+                <span class="mileage">Mileage:</span>
+                <span class="transmission">Transmission:</span>
+                <span class="fuel">Fuel:</span>
+                <span class="condition">Condition:</span>
+                <span class="title_status">Title:</span>
+              </div>
+              <button class="card-save">Save</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="saved closed">
+          <button class="saved-card-close">Close</button>
+          <h2>Saved Cars</h2>
+          <div id="saved-card-container"></div>
+          <div class="saved-card" style="display: none">
+            <div class="saved-card-content">
+              <div class="saved-card-title">
+                <h3>Year Brand Model</h3>
+              </div>
+              <div class="saved-card-details">
+                <span class="price">Price:</span>
+              </div>
+              <button class="saved-card-remove">Remove</button>
+            </div>
+          </div>
+        </aside>
       </div>
-    </div>
-    <div class="footer">
-      <button onclick="quoteAlert();">Get A Quote!</button>
-      <button onclick="removeLastCard();">Remove A Card!</button>
-    </div>
+    </main>
   </body>
 </html>
